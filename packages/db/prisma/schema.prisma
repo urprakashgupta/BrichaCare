@@ -13,3 +13,41 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Employee {
+  id          String         @id @default(uuid())
+  employeeId  String         @unique
+  name        String
+  email       String?        @unique
+  phone       String?        @unique
+  department  String?
+  designation String?
+  password    String // hashed
+  joinDate    DateTime       @default(now())
+  role        Role           @default(EMPLOYEE)
+  status      EmployeeStatus @default(ACTIVE)
+  attendance  Attendance[]
+}
+
+model Attendance {
+  id         String         @id @default(uuid())
+  employeeId String
+  type       AttendanceType
+  timestamp  DateTime       @default(now())
+
+  employee Employee @relation(fields: [employeeId], references: [employeeId])
+}
+
+enum AttendanceType {
+  IN
+  OUT
+}
+
+enum Role {
+  EMPLOYEE
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+}
