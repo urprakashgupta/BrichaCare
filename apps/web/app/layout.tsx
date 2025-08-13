@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner"; // adjust the path to where sonner is
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,13 +19,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+        <Toaster position="top-right" richColors />{" "}
+        {/* Sonner toast provider */}
       </body>
     </html>
   );
